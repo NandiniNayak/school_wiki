@@ -5,4 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :email, format:{with: /@student.com/}
+  has_many :posts
 end
