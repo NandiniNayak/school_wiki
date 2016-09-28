@@ -4,7 +4,7 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.json
   def index
-    @subjects =Subject.where(year:params[:year])
+    @subjects = Subject.where(year:params[:year])
     # @subjects = Subject.all
   end
 
@@ -17,6 +17,28 @@ class SubjectsController < ApplicationController
   def new
     @subject = Subject.new
   end
+
+  def new_post
+    @subject
+    @post = Post.new()
+  end
+
+  def create_posts
+    @post = Post.new(post_params)
+    @post.user_id = current_user.id if current_user
+    @post.subject_id = @subject.id
+
+    respond_to do |format|
+      if @post.save
+        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.json { render :show, status: :created, location: @post }
+      else
+        format.html { render :new }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   # GET /subjects/1/edit
   def edit
