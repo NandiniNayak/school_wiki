@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_subject, only: [:create, :new,:index]
 
   # GET /posts
   # GET /posts.json
@@ -28,7 +29,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id if current_user
-    @post.subject_id = @subject.id
+    # @post.subject_id = @subject.id
 
     respond_to do |format|
       if @post.save
@@ -69,6 +70,10 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params[:id])
+    end
+
+    def set_subject
+      @subject = Subject.find(params[:subject_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
